@@ -1,15 +1,7 @@
-import 'reflect-metadata'
-import {createKoaServer} from "routing-controllers"
 import setupDb from './db'
-import LoginController from "./logins/controller";
+import app from "./app";
 
 const port = process.env.PORT || 4008
-
-const app = createKoaServer({
-  controllers: [
-    LoginController
-  ]
-})
 
 setupDb()
   .then(_ => {
