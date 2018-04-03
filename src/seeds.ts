@@ -18,5 +18,12 @@ const runSeeds = async () => {
 
 setupDb()
   .then(async _ => {
-    await runSeeds()
+    try {
+      await runSeeds()
+      console.log('Seeds ran successfully')
+      process.exit()
+    } catch (err) {
+      console.log('Something went wrong: ' + err.message)
+      process.exit(1)
+    }
   })
