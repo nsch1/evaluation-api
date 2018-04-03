@@ -13,7 +13,7 @@ const startDate = new Date('2018-04-16')
 const endDate = new Date('2018-05-22')
 
 describe('GroupController', () => {
-  test('/classes', async () => {
+  test('POST /classes', async () => {
     await request(await app.callback())
       .post('/classes')
       .send({
@@ -30,6 +30,17 @@ describe('GroupController', () => {
       })
     const group = await Group.findOneById(id)
     expect(group).not.toBe(undefined)
+  })
+
+  test('GET /classes', async () => {
+    const groups = await Group.find()
+    await request(await app.callback())
+      .get('/classes')
+      .expect(200)
+      .then(res => {
+        const {body} = res
+        expect(body.classes).toEqual(expect.arrayContaining(groups))
+      })
   })
 
   afterAll(async () => {

@@ -5,8 +5,9 @@ import Group from "./entity";
 export default class GroupController {
 
   @Get('/classes')
-  getGroups() {
-    return Group.find()
+  async getGroups() {
+    const classes = await Group.find()
+    return {classes}
   }
   
   @Post('/classes')
