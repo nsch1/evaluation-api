@@ -29,6 +29,8 @@ describe('GroupController', () => {
         expect(body.startDate).toBe(startDate.toISOString())
         expect(body.endDate).toBe(endDate.toISOString())
       })
+    const group = await Group.findOneById(id)
+    expect(group).not.toBe(undefined)
   })
 
   afterAll(async () => {
