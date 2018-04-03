@@ -1,4 +1,4 @@
-import {BadRequestError, Body, JsonController, Param, Post} from "routing-controllers";
+import {BadRequestError, Body, HttpCode, JsonController, Param, Post} from "routing-controllers";
 import Student from "./entity";
 import Group from "../groups/entity";
 
@@ -6,6 +6,7 @@ import Group from "../groups/entity";
 export default class StudentController {
 
   @Post('/classes/:id([0-9]+)/students')
+  @HttpCode(201)
   async createStudent(
     @Body() body: Student,
     @Param('id') groupId: number
