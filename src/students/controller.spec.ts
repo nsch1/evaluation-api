@@ -21,7 +21,6 @@ describe('StudentController', () => {
       })
       .expect(201)
       .then(res => {
-        console.log(res.body.errors)
         const {body} = res
         expect(body.id).not.toBe(undefined)
         expect(body.name).toBe(name)
