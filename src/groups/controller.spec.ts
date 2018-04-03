@@ -23,7 +23,6 @@ describe('GroupController', () => {
       })
       .expect(201)
       .then(res => {
-        console.log(res.body.errors)
         const {body} = res
         expect(body.id).toBe(id)
         expect(body.startDate).toBe(startDate.toISOString())
