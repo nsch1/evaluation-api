@@ -23,7 +23,7 @@ class CustomNamingStrategy extends DefaultNamingStrategy implements NamingStrate
   }
 }
 
-export default () =>
+export default (notTestConnection: boolean) =>
   createConnection({
     type: "postgres",
     url: process.env.DATABASE_URL || 'postgres://postgres:secret@localhost:5432/postgres',
@@ -31,7 +31,7 @@ export default () =>
       User
     ],
     synchronize: true,
-    logging: true,
+    logging: notTestConnection,
     namingStrategy: new CustomNamingStrategy()
   })
     .then(_ => console.log('Connected to Postgres with TypeORM'))

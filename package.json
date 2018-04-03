@@ -1,5 +1,5 @@
 {
-  "name": "typequiz-backend",
+  "name": "evaluation-api",
   "version": "1.0.0",
   "main": "target/index.js",
   "author": "nsch1 <nick.schooneman1@gmail.com>",
@@ -23,6 +23,29 @@
   "scripts": {
     "start": "node .",
     "dev": "nodemon --inspect .",
-    "seed": "node target/seeds.js"
+    "seed": "node target/seeds.js",
+    "test": "jest --watch --notify"
+  },
+  "devDependencies": {
+    "@types/jest": "^22.2.2",
+    "@types/supertest": "^2.0.4",
+    "jest": "^22.4.3",
+    "supertest": "^3.0.0",
+    "ts-jest": "^22.4.2",
+    "typescript": "^2.8.1"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ]
   }
 }
