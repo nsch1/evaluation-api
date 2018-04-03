@@ -1,8 +1,8 @@
-import User from "./users/entity"
+import Teacher from "./users/entity"
 import setupDb from './db'
 
 const seedUser = async (n: number) => {
-  const entity = User.create({
+  const entity = Teacher.create({
     email: `test${n}@example.com`
   })
 
@@ -16,8 +16,8 @@ const runSeeds = async () => {
   }
 }
 
-setupDb()
-  .then(async _ => {
+setupDb(true)
+  .then(async () => {
     try {
       await runSeeds()
       console.log('Seeds ran successfully')

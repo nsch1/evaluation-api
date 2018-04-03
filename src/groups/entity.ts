@@ -1,9 +1,11 @@
-import {Column, Entity, PrimaryColumn, PrimaryColumn} from "typeorm";
-import {IsDateString} from "class-validator";
+import {BaseEntity, Column, Entity, OneToMany, PrimaryColumn} from "typeorm";
+import {IsDateString, IsInt} from "class-validator";
+import Student from "../students/entity";
 
 @Entity()
-export default class Group {
+export default class Group extends BaseEntity {
 
+  @IsInt()
   @PrimaryColumn('integer')
   id: number
 
@@ -14,5 +16,8 @@ export default class Group {
   @IsDateString()
   @Column('date')
   endDate: Date
+
+  @OneToMany(() => Student, s => s.group)
+  students: Student[]
 
 }
