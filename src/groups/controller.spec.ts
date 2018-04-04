@@ -3,6 +3,7 @@ import * as request from 'supertest'
 import app from '../app'
 import setupDb from '../db'
 import Group from "./entity";
+import Student from "../students/entity";
 
 beforeAll(async () => {
   await setupDb(false)
@@ -40,6 +41,23 @@ describe('GroupController', () => {
       .then(res => {
         const {body} = res
         expect(body.classes).toEqual(expect.arrayContaining(groups))
+      })
+  })
+
+  test('GET /classes/:id', async () => {
+    const student = await Student.findOne({where: {group_id: 1}, relations: ['evaluations']})
+
+    student!.evaluations.sort((a,b) => {
+      return Number(new Date(b.date)) - Number(new Date(a.date))
+    })
+
+    await request(await app.callback())
+      .get('/classes/1')
+      .expect(200)
+      .then(res => {
+        const {body} = res
+        expect(body.id).toBe(1)
+        expect(body.students).toEqual(expect.arrayContaining([student]))
       })
   })
 
