@@ -1,8 +1,6 @@
 import {Body, Get, HttpCode, JsonController, NotFoundError, Param, Post} from "routing-controllers";
 import Group from "./entity";
 import {getRepository} from "typeorm";
-import Student from "../students/entity";
-import Evaluation from "../evaluations/entity";
 
 @JsonController()
 export default class GroupController {
