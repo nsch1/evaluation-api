@@ -8,6 +8,7 @@ import Teacher from "./users/entity";
 import EvaluationController from "./evaluations/controller";
 
 export default createKoaServer({
+  cors: true,
   controllers: [
     LoginController,
     GroupController,

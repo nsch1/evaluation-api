@@ -1,4 +1,4 @@
-import {Body, Get, HttpCode, JsonController, NotFoundError, Param, Post} from "routing-controllers";
+import {BadRequestError, Body, Get, HttpCode, JsonController, NotFoundError, Param, Post} from "routing-controllers";
 import Group from "./entity";
 import {getRepository} from "typeorm";
 
@@ -7,8 +7,7 @@ export default class GroupController {
 
   @Get('/classes')
   async getGroups() {
-    const classes = await Group.find()
-    return {classes}
+    return Group.find({order: {id: 'ASC'}, relations: ['students']})
   }
 
   @Get('/classes/:id([0-9]+)')
@@ -36,10 +35,14 @@ export default class GroupController {
   
   @Post('/classes')
   @HttpCode(201)
-  createGroup(
+  async createGroup(
     @Body() body: Group
   ) {
-    return Group.create(body).save()
+    const group = Group.findOneById(body.id)
+    if(group) throw new BadRequestError('Class with that number already exists.')
+
+    await Group.create(body).save()
+    return Group.findOne({where: {id: body.id}, relations: ['students']})
   }
 
 }
