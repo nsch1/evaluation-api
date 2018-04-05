@@ -38,7 +38,7 @@ export default class GroupController {
   async createGroup(
     @Body() body: Group
   ) {
-    const group = Group.findOneById(body.id)
+    const group = await Group.findOneById(body.id)
     if(group) throw new BadRequestError('Class with that number already exists.')
 
     await Group.create(body).save()

@@ -1,4 +1,4 @@
-import {BaseEntity, Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn} from "typeorm";
+import {BaseEntity, Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, RelationId} from "typeorm";
 import {IsString, IsUrl} from "class-validator";
 import Evaluation from "../evaluations/entity";
 import Group from "../groups/entity";
@@ -22,5 +22,8 @@ export default class Student extends BaseEntity {
 
   @ManyToOne(() => Group, g => g.students)
   group: Group
+
+  @RelationId((student: Student) => student.group)
+  groupId: number
 
 }

@@ -1,4 +1,4 @@
-import {BadRequestError, Body, HttpCode, JsonController, Param, Post} from "routing-controllers";
+import {BadRequestError, Body, Get, HttpCode, JsonController, Param, Post} from "routing-controllers";
 import Student from "./entity";
 import Group from "../groups/entity";
 
@@ -18,6 +18,13 @@ export default class StudentController {
       ...body,
       group
     }).save()
+  }
+
+  @Get('/students/:id([0-9]+)')
+  getStudent(
+    @Param('id') studentId: number
+  ) {
+    return Student.findOne({where: {id:studentId}, relations: ['evaluations']})
   }
 
 }
