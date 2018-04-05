@@ -16,11 +16,13 @@ export default class EvaluationController{
     const student = await Student.findOneById(studentId)
     if(!student) throw new BadRequestError('No student found.')
 
-    return Evaluation.create({
+    const evaluation = await Evaluation.create({
       ...body,
       student,
       teacher
     }).save()
+
+    return Evaluation.findOneById(evaluation.id)
   }
 
 }
