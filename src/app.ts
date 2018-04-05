@@ -22,7 +22,7 @@ export default createKoaServer({
 
       if (token) {
         const {id} = verify(token)
-        return Teacher.findOneById(id)
+        return Teacher.findOne({where: {id}})
       }
     }
     return undefined

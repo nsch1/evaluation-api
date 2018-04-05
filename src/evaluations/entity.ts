@@ -21,7 +21,7 @@ export default class Evaluation extends BaseEntity {
   @Column('date')
   date: Date
 
-  @ManyToOne(() => Student, s => s.evaluations)
+  @ManyToOne(() => Student, s => s.evaluations, {onDelete: 'CASCADE'})
   student: Student
 
   @ManyToOne(() => Teacher, t => t.evaluations)

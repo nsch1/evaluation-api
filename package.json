@@ -19,7 +19,7 @@
     "koa-router": "^7.4.0",
     "pg": "^7.4.1",
     "routing-controllers": "^0.7.7",
-    "typeorm": "^0.1.16"
+    "typeorm": "next"
   },
   "scripts": {
     "start": "node .",

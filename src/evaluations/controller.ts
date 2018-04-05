@@ -13,7 +13,7 @@ export default class EvaluationController{
     @Param('id') studentId: number,
     @CurrentUser() teacher: Teacher
   ) {
-    const student = await Student.findOneById(studentId)
+    const student = await Student.findOne({where: {id: studentId}})
     if(!student) throw new BadRequestError('No student found.')
 
     const evaluation = await Evaluation.create({
@@ -22,7 +22,7 @@ export default class EvaluationController{
       teacher
     }).save()
 
-    return Evaluation.findOneById(evaluation.id)
+    return Evaluation.findOne({where: {id: evaluation.id}})
   }
 
 }
