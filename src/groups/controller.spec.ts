@@ -4,12 +4,13 @@ import app from '../app'
 import setupDb from '../db'
 import Group from "./entity";
 import Student from "../students/entity";
+import {sign} from "../jwt";
 
 beforeAll(async () => {
   await setupDb(false)
 })
 
-const id = 15
+const id = 7657684
 const startDate = new Date('2018-04-16')
 const endDate = new Date('2018-05-22')
 
@@ -17,6 +18,7 @@ describe('GroupController', () => {
   test('POST /classes', async () => {
     await request(await app.callback())
       .post('/classes')
+      .set('Authorization', `Bearer ${sign({id: 1})}`)
       .send({
         id,
         startDate,
@@ -30,7 +32,7 @@ describe('GroupController', () => {
         expect(body.endDate).toBe(endDate.toISOString())
       })
       .catch(err => console.log(err.message))
-    const group = await Group.findOneById(id)
+    const group = await Group.findOne({where: {id}})
     expect(group).not.toBe(undefined)
   })
 
@@ -62,7 +64,7 @@ describe('GroupController', () => {
   })
 
   afterAll(async () => {
-    const testGroup = await Group.findOneById(id)
+    const testGroup = await Group.findOne({where: {id}})
     if(testGroup) await testGroup.remove()
   })
 })

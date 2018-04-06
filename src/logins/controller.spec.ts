@@ -3,6 +3,7 @@ import * as request from 'supertest'
 import app from '../app'
 import setupDb from '../db'
 import User from "../users/entity";
+import {sign} from "../jwt";
 
 const email = 'test@example.com'
 const password = 'test1234'
@@ -22,6 +23,7 @@ afterAll(async () => {
 
 describe('LoginController', () => {
   test('/logins', async () => {
+    const user = await User.findOne({where: {email}})
     await request(await app.callback())
       .post('/logins')
       .send({
@@ -31,7 +33,7 @@ describe('LoginController', () => {
       .expect(200)
       .expect('Content-Type', /json/)
       .then(res => {
-        expect(res.body.jwt).not.toBe(undefined)
+        expect(res.body.jwt).toBe(sign({ id: user!.id! }))
       })
   })
 })
