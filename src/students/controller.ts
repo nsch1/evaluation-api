@@ -1,4 +1,5 @@
 import {
+  Authorized,
   BadRequestError, Body, Delete, Get, HttpCode, JsonController, NotFoundError, Param, Patch,
   Post
 } from "routing-controllers";
@@ -8,6 +9,7 @@ import Group from "../groups/entity";
 @JsonController()
 export default class StudentController {
 
+  @Authorized()
   @Post('/classes/:id([0-9]+)/students')
   @HttpCode(201)
   async createStudent(
@@ -25,6 +27,7 @@ export default class StudentController {
     return Student.findOne({where: {id: student.id}, relations: ['evaluations']})
   }
 
+  @Authorized()
   @Get('/students/:id([0-9]+)')
   async getStudent(
     @Param('id') studentId: number
@@ -39,6 +42,7 @@ export default class StudentController {
     return student
   }
 
+  @Authorized()
   @Patch('/students/:id([0-9]+)')
   async updateStudent(
     @Body() update: Partial<Student>,
@@ -52,9 +56,16 @@ export default class StudentController {
 
     await student.save()
 
-    return student
+    const updatedStudent = await Student.findOne({where: {id: student.id}, relations: ['evaluations']})
+
+    updatedStudent!.evaluations.sort((a, b) => {
+      return Number(new Date(b.date)) - Number(new Date(a.date))
+    })
+
+    return updatedStudent
   }
 
+  @Authorized()
   @Delete('/students/:id([0-9]+)')
   async deleteStudent(
     @Param('id') studentId: number
